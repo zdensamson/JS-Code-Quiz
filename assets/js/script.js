@@ -16,7 +16,6 @@ var questionList = [
         answerIndex: 2
     },  
 ];
-
 // global variable to keep track of what question the user is on 
 currentQuestion = 0;
 
@@ -24,12 +23,15 @@ currentQuestion = 0;
 var visableQuiz = document.querySelector(".quiz-holder");
 
 // targets the <h3> to store the question text
-var questContainer = document.querySelector(".question")
+var questContainer = document.querySelector(".question");
 
 // targets the <ul> where we will dynamically append <li> elements
-var answerContainer = document.querySelector(".visable-answers")
+var answerContainer = document.querySelector(".visable-answers");
 
-function questStepper() {
+// targets the <h4> where we will respond to user clicks
+var feedback = document.querySelector(".response");
+
+function populateQuest() {
     var questObjEl = questionList[currentQuestion];
     questionTxt = questObjEl.questionText;
     questContainer.textContent = questionTxt;
@@ -53,21 +55,28 @@ function removeLastQuestion() {
     }
 }
 
+function nextQuestion () {
+    feedback.textContent = "";
+    removeLastQuestion();
+    currentQuestion++;
+    populateQuest();
+    
+}
+
 function selectAnswer(event) {
     if (questionList[currentQuestion].answerIndex == event.target.getAttribute("data-question-num")) {
-        alert("you selected the correct answer!")
-        removeLastQuestion();
-        currentQuestion++;
-        questStepper();
+        feedback.textContent = "CORRECT!";
+        setTimeout(nextQuestion, 2000);
+        // feedback.textContent = "";
 
     }
     else {
-        alert("wrong!")
+        feedback.textContent = "WRONG!"
     }
 };
 
 // listens for the button click of "START GAME"
-document.getElementById("start-game").addEventListener("click",questStepper);
+document.getElementById("start-game").addEventListener("click",populateQuest);
 
 // adds event listeners to each ANSWER stored in <li> tags 
-visableQuiz.addEventListener("click", selectAnswer);
+answerContainer.addEventListener("click", selectAnswer);
