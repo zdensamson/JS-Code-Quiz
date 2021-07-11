@@ -20,7 +20,7 @@ var questionList = [
 var currentQuestion = 0;
 
 // global variable to keep track of game time
-var counter = 30;
+var counter = 70;
 
 // targets the <div> where our question/answers sit in
 var visableQuiz = document.querySelector(".quiz-holder");
@@ -42,12 +42,22 @@ function populateQuest() {
     questionTxt = questObjEl.questionText;
     questContainer.textContent = questionTxt;
     for (i = 0; i < questObjEl.answers.length; i++) {
-        questionSingleEl = document.createElement("li");
+        // questionSingleEl = document.createElement("li");
+        // questionSingleEl.textContent = questObjEl.answers[i];
+        // questionSingleEl.setAttribute("data-question-num", i);
+        // questionSingleEl.classList.add("list-group-item")
+        // questionSingleEl.id = i;
+        // answerContainer.appendChild(questionSingleEl);
+
+        questionSingleEl = document.createElement("button");
+        questionSingleEl.type = "button";
         questionSingleEl.textContent = questObjEl.answers[i];
         questionSingleEl.setAttribute("data-question-num", i);
+        questionSingleEl.classList.add("btn");
+        questionSingleEl.classList.add("btn-warning");
+        questionSingleEl.classList.add("mb-2");
         questionSingleEl.id = i;
         answerContainer.appendChild(questionSingleEl);
-        visableQuiz.appendChild(answerContainer);
     }
     document.getElementById("start-game").remove();
 }
@@ -72,7 +82,7 @@ function nextQuestion () {
 function selectAnswer(event) {
     if (questionList[currentQuestion].answerIndex == event.target.getAttribute("data-question-num")) {
         feedback.textContent = "CORRECT!";
-        setTimeout(nextQuestion, 1000);
+        setTimeout(nextQuestion, 300);
         // feedback.textContent = "";
 
     }
@@ -95,6 +105,10 @@ function timerStart() {
         if (counter < 0) {
             clearInterval(myTimer);
             timeStamp.textContent = "you LOSE!";
+        }
+        if (currentQuestion == questionList.length) {
+            clearInterval(myTimer);
+            timeStamp.textContent = "you WIN!"
         }
     },1000)
 };

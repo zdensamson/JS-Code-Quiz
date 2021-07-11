@@ -4,27 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <!-- jQuery library -->
+    <title>JS-Code-quiz</title>
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+
+
 </head>
 <body>
     <div class="quiz-holder container">
-        <div class="row">
-            <div class="col-6 bg-primary">
-                <h3 class="question"></h3>
-                <ul class="visable-answers"></ul>
-                <h4 class="response"></h4>
-                <h4 class="time-keeper"></h4>
-            </div>
-            <div class="col-6">
+        <div class="row justify-content-center mt-4 mb-2">
+            <h3 class="question">Welcome to code quiz</h3>
+        </div>
+        <div class="row justify-content-center answer-holder mb-2">
+            <div class="visable-answers list-group"></div>
+        </div>
+        <div class="row justify-content-center">
+            <h4 class="col-6 response" align="center"></h4>
+            <h4 class="col-6 time-keeper" align="center"></h4>
+        </div>
+            <div class="row justify-content-center">
                 <button id="start-game" type="button" class="btn btn-primary">Start Game</button>
             </div>
-        </div>
     </div>
     <script src="./assets/js/script.js"></script>
 </body>
