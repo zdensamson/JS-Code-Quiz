@@ -17,7 +17,10 @@ var questionList = [
     },  
 ];
 // global variable to keep track of what question the user is on 
-currentQuestion = 0;
+var currentQuestion = 0;
+
+// global variable to keep track of game time
+var counter = 30;
 
 // targets the <div> where our question/answers sit in
 var visableQuiz = document.querySelector(".quiz-holder");
@@ -30,6 +33,9 @@ var answerContainer = document.querySelector(".visable-answers");
 
 // targets the <h4> where we will respond to user clicks
 var feedback = document.querySelector(".response");
+
+// targets the <h4> where the timer will be displayed 
+var timeStamp = document.querySelector(".time-keeper")
 
 function populateQuest() {
     var questObjEl = questionList[currentQuestion];
@@ -66,17 +72,37 @@ function nextQuestion () {
 function selectAnswer(event) {
     if (questionList[currentQuestion].answerIndex == event.target.getAttribute("data-question-num")) {
         feedback.textContent = "CORRECT!";
-        setTimeout(nextQuestion, 2000);
+        setTimeout(nextQuestion, 1000);
         // feedback.textContent = "";
 
     }
     else {
         feedback.textContent = "WRONG!"
+        counter = counter - 10;
     }
 };
 
+
+
+function timerStart() {
+    var myTimer = setInterval(function(){
+        counter--;
+        timeStamp.textContent = counter;
+        if (counter === 0) {
+            clearInterval(myTimer);
+            timeStamp.textContent = "you LOSE!";
+        }
+        if (counter < 0) {
+            clearInterval(myTimer);
+            timeStamp.textContent = "you LOSE!";
+        }
+    },1000)
+};
 // listens for the button click of "START GAME"
+    //starts populating questions
 document.getElementById("start-game").addEventListener("click",populateQuest);
+    //starts the countdown
+document.getElementById("start-game").addEventListener("click",timerStart);
 
 // adds event listeners to each ANSWER stored in <li> tags 
 answerContainer.addEventListener("click", selectAnswer);
