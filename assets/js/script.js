@@ -1,18 +1,18 @@
 // an array full of question objects to be called below
 var questionList = [
     {
-        questionText: "what is batmans real name?",
-        answers: ["bruce wayne", "peter parker", "spongebob"],
+        questionText: "How do you add a class to a DOM element",
+        answers: [".classList.add()", ".addClass()", ".createClass()"],
         answerIndex: 0
     },
     {
-        questionText: "is god real?",
-        answers: ["yes", "maybe", "no"],
+        questionText: "Will .querySelector() dynamically generate an HTML element?",
+        answers: ["yes", "no", "sometimes"],
         answerIndex: 1
     },
     {
-        questionText: "who will win the NBA 2021 championship?",
-        answers: ["Bucks", "Nets", "Suns"],
+        questionText: "How do you dyamically add an <li> element to an <ul> element?",
+        answers: [".addChild()", ".addThis()", ".appendChild()"],
         answerIndex: 2
     },  
 ];
@@ -118,6 +118,14 @@ function selectAnswer(event) {
     }
 };
 
+var userInputHolder = document.querySelector(".input-form");
+var inputEl = document.createElement("input"); 
+var submitButtoneEl = document.createElement("button");
+initials = "";
+highscore = {};
+nameHolder = "";
+scoreList = [];
+
 function winGame() {
     console.log("game over");
 
@@ -126,15 +134,82 @@ function winGame() {
     document.querySelector(".answer-holder").remove();
     document.querySelector(".row-quatro").remove();
 
-    //provide 
+    //provide the user score
     questContainer.textContent = "All done!";
     var scoreKeep = document.createElement("p");
     scoreKeep.innerHTML = "Your final score was: " + counter;
     scoreKeep.classList.add("col-12");
     scoreKeep.classList.add("text-center");
+    scoreKeep.classList.add("par-1");
     visableQuiz.appendChild(scoreKeep);
+    
+    // give directions for the high score form
+    var direction = document.createElement("p");
+    direction.innerHTML = "Please enter your initials & hit submit to save your final score";
+    direction.classList.add("col-12");
+    direction.classList.add("text-center");
+    direction.classList.add("par-2");
+    visableQuiz.appendChild(direction);
 
+    // pass in structure to input form
+    inputEl.classList.add("col-4");
+    inputEl.classList.add("write-name")
+    inputEl.type="text";
+    initials.textContent = inputEl.value;
+
+    submitButtoneEl.textContent = "Submit"
+    submitButtoneEl.classList.add("col-3");
+    submitButtoneEl.classList.add("submit-score");
+    submitButtoneEl.classList.add("btn");
+    submitButtoneEl.classList.add("btn-success");
+  
+
+    userInputHolder.appendChild(inputEl);
+    userInputHolder.appendChild(submitButtoneEl);
+    visableQuiz.appendChild(userInputHolder);
 };
+
+// this needs to be refactored 
+
+function submitForm(event) {
+    if (event.target.matches(".submit-score")) {
+        if (!inputEl.value) {
+            alert("Please enter your initials")
+        }
+        else 
+          var namePass = inputEl.value;
+          displayScore();
+          saveName(namePass);
+        }
+    }
+
+function displayScore() {
+    visableQuiz.remove();
+
+
+}
+
+function saveName(namePass) {
+    nameHolder = nameHolder + namePass;
+    highscore[nameHolder] = counter;
+    saveScore();
+}
+
+function saveScore (){
+    var allScores = JSON.parse(localStorage.getItem("scores"));
+    if  (!allScores) {
+        scoreList.push(highscore);
+        localStorage.setItem("scores", JSON.stringify(scoreList));
+    }
+    else {
+        scoreList.push(allScores);
+        scoreList.push(highscore);
+        localStorage.removeItem("scores")
+        localStorage.setItem("scores", JSON.stringify(scoreList));
+    }
+    
+}
+
 
 
 // listens for the button click of "START GAME"
@@ -145,3 +220,6 @@ document.getElementById("start-game").addEventListener("click",timerStart);
 
 // adds event listeners to each ANSWER stored in <li> tags 
 answerContainer.addEventListener("click", selectAnswer);
+
+// adds event listener to the high score form 
+userInputHolder.addEventListener("click", submitForm);
