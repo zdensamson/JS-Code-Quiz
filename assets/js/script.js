@@ -16,6 +16,7 @@ var questionList = [
         answerIndex: 2
     },  
 ];
+
 // global variable to keep track of what question the user is on 
 var currentQuestion = 0;
 
@@ -35,20 +36,43 @@ var answerContainer = document.querySelector(".visable-answers");
 var feedback = document.querySelector(".response");
 
 // targets the <h4> where the timer will be displayed 
-var timeStamp = document.querySelector(".time-keeper")
+var timeStamp = document.querySelector(".time-keeper");
+
+// targets the <div> "row" where we hold the timer & feedback <h4>'s
+var talker = document.querySelector(".row-tres")
+
+// targets the 3 <p> elements describing the game
+var p1 = document.querySelector(".p1");
+var p2 = document.querySelector(".p2");
+var p3 = document.querySelector(".p3");
+
+function timerStart() {
+    var myTimer = setInterval(function(){
+        counter--;
+        timeStamp.textContent = "Time left: " + counter;
+        if (counter === 0) {
+            clearInterval(myTimer);
+            timeStamp.textContent = "game over"
+            loseGame();
+        }
+        if (counter < 0) {
+            clearInterval(myTimer);
+            timeStamp.textContent = "game over"
+            loseGame();
+        }
+        if (currentQuestion == questionList.length) {
+            clearInterval(myTimer);
+            timeStamp.textContent = "you WIN!"
+            winGame();
+        }
+    },1000)
+};
 
 function populateQuest() {
     var questObjEl = questionList[currentQuestion];
     questionTxt = questObjEl.questionText;
     questContainer.textContent = questionTxt;
     for (i = 0; i < questObjEl.answers.length; i++) {
-        // questionSingleEl = document.createElement("li");
-        // questionSingleEl.textContent = questObjEl.answers[i];
-        // questionSingleEl.setAttribute("data-question-num", i);
-        // questionSingleEl.classList.add("list-group-item")
-        // questionSingleEl.id = i;
-        // answerContainer.appendChild(questionSingleEl);
-
         questionSingleEl = document.createElement("button");
         questionSingleEl.type = "button";
         questionSingleEl.textContent = questObjEl.answers[i];
@@ -60,7 +84,10 @@ function populateQuest() {
         answerContainer.appendChild(questionSingleEl);
     }
     document.getElementById("start-game").remove();
-}
+    p1.remove();
+    p2.remove();
+    p3.remove();
+};
 
 function removeLastQuestion() {
     questContainer.textContent=""
@@ -69,7 +96,7 @@ function removeLastQuestion() {
         var currentAnswer = document.getElementById(i);
         currentAnswer.remove();
     }
-}
+};
 
 function nextQuestion () {
     feedback.textContent = "";
@@ -77,13 +104,12 @@ function nextQuestion () {
     currentQuestion++;
     populateQuest();
     
-}
+};
 
 function selectAnswer(event) {
     if (questionList[currentQuestion].answerIndex == event.target.getAttribute("data-question-num")) {
         feedback.textContent = "CORRECT!";
-        setTimeout(nextQuestion, 300);
-        // feedback.textContent = "";
+        setTimeout(nextQuestion, 600);
 
     }
     else {
@@ -92,26 +118,25 @@ function selectAnswer(event) {
     }
 };
 
+function winGame() {
+    console.log("game over");
 
+    // remove game elements
+    talker.remove();
+    document.querySelector(".answer-holder").remove();
+    document.querySelector(".row-quatro").remove();
 
-function timerStart() {
-    var myTimer = setInterval(function(){
-        counter--;
-        timeStamp.textContent = counter;
-        if (counter === 0) {
-            clearInterval(myTimer);
-            timeStamp.textContent = "you LOSE!";
-        }
-        if (counter < 0) {
-            clearInterval(myTimer);
-            timeStamp.textContent = "you LOSE!";
-        }
-        if (currentQuestion == questionList.length) {
-            clearInterval(myTimer);
-            timeStamp.textContent = "you WIN!"
-        }
-    },1000)
+    //provide 
+    questContainer.textContent = "All done!";
+    var scoreKeep = document.createElement("p");
+    scoreKeep.innerHTML = "Your final score was: " + counter;
+    scoreKeep.classList.add("col-12");
+    scoreKeep.classList.add("text-center");
+    visableQuiz.appendChild(scoreKeep);
+
 };
+
+
 // listens for the button click of "START GAME"
     //starts populating questions
 document.getElementById("start-game").addEventListener("click",populateQuest);

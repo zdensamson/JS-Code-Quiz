@@ -11,22 +11,25 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-
+    <link rel="stylesheet" href="./assets/css/stylesheet.css">
 
 </head>
-<body>
+<body class="body">
     <div class="quiz-holder container">
-        <div class="row justify-content-center mt-4 mb-2">
-            <h3 class="question">Welcome to code quiz</h3>
+        <div class="row justify-content-center row-uno">
+            <h3 class="question col-12" align="center">Welcome to code quiz</h3>
+            <p class="p1 col-12" align="center">Please hit the "start game" game button to be fed a seires of JS questions.</p>
+            <p class="p2 col-12" align="center">Every answer you get wrong will deduct 10 seconds from the timer.</p>
+            <p class="p3 col-12" align="center">You have 100 seconds to finish. Good luck!</p>
         </div>
-        <div class="row justify-content-center answer-holder mb-2">
+        <div class="row justify-content-center mb-4 answer-holder" >
             <div class="visable-answers list-group"></div>
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center row-tres">
             <h4 class="col-6 response" align="center"></h4>
             <h4 class="col-6 time-keeper" align="center"></h4>
         </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center row-quatro">
                 <button id="start-game" type="button" class="btn btn-primary">Start Game</button>
             </div>
     </div>
