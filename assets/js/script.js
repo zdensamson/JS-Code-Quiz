@@ -68,6 +68,16 @@ function timerStart() {
     },1000)
 };
 
+function removeStart() {
+    document.getElementById("start-game").remove();
+    p1.remove();
+    p2.remove();
+    p3.remove();
+
+    populateQuest();
+};
+
+
 function populateQuest() {
     var questObjEl = questionList[currentQuestion];
     questionTxt = questObjEl.questionText;
@@ -83,10 +93,6 @@ function populateQuest() {
         questionSingleEl.id = i;
         answerContainer.appendChild(questionSingleEl);
     }
-    document.getElementById("start-game").remove();
-    p1.remove();
-    p2.remove();
-    p3.remove();
 };
 
 function removeLastQuestion() {
@@ -121,7 +127,6 @@ function selectAnswer(event) {
 var userInputHolder = document.querySelector(".input-form");
 var inputEl = document.createElement("input"); 
 var submitButtoneEl = document.createElement("button");
-initials = "";
 highscore = {};
 nameHolder = "";
 scoreList = [];
@@ -155,7 +160,7 @@ function winGame() {
     inputEl.classList.add("col-4");
     inputEl.classList.add("write-name")
     inputEl.type="text";
-    initials.textContent = inputEl.value;
+
 
     submitButtoneEl.textContent = "Submit"
     submitButtoneEl.classList.add("col-3");
@@ -185,27 +190,26 @@ function submitForm(event) {
 
 function displayScore() {
     visableQuiz.remove();
-
-
 }
 
 function saveName(namePass) {
     nameHolder = nameHolder + namePass;
     highscore[nameHolder] = counter;
+    console.log(highscore);
     saveScore();
 }
 
 function saveScore (){
     var allScores = JSON.parse(localStorage.getItem("scores"));
+    console.log(allScores);
     if  (!allScores) {
         scoreList.push(highscore);
         localStorage.setItem("scores", JSON.stringify(scoreList));
     }
     else {
-        scoreList.push(allScores);
-        scoreList.push(highscore);
+        allScores.push(highscore);
         localStorage.removeItem("scores")
-        localStorage.setItem("scores", JSON.stringify(scoreList));
+        localStorage.setItem("scores", JSON.stringify(allScores));
     }
     
 }
@@ -214,7 +218,7 @@ function saveScore (){
 
 // listens for the button click of "START GAME"
     //starts populating questions
-document.getElementById("start-game").addEventListener("click",populateQuest);
+document.getElementById("start-game").addEventListener("click",removeStart);
     //starts the countdown
 document.getElementById("start-game").addEventListener("click",timerStart);
 
